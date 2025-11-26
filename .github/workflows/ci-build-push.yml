@@ -1,0 +1,75 @@
+name: CI - Test, Build, Push to ECR
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  test-build-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    # ---------------------------
+    # 1. Checkout du repo
+    # ---------------------------
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # ---------------------------
+    # 2. Setup Python pour les tests
+    # ---------------------------
+    - name: Setup Python
+      uses: actions/setup-python@v6.1.0
+      with:
+        python-version: "3.13"
+
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install -r requirements.txt
+
+    # ---------------------------
+    # 3. Lancer les tests
+    # ---------------------------
+    - name: Run tests
+      run: |
+        pytest -q --disable-warnings --maxfail=1
+
+    # ---------------------------
+    # 4. Configure AWS credentials (OIDC)
+    # ---------------------------
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v5.1.1
+      with:
+        role-to-assume: ${{ secrets.AWS_OIDC_ROLE }}
+        aws-region: eu-north-1
+
+    # ---------------------------
+    # 5. Login à Amazon ECR
+    # ---------------------------
+    - name: Login to Amazon ECR
+      uses: aws-actions/amazon-ecr-login@v2.0.1
+
+    # ---------------------------
+    # 6. Setup Docker Buildx
+    # ---------------------------
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3.11.1
+
+    # ---------------------------
+    # 7. Build multi-stage Docker et Push ECR
+    # ---------------------------
+    - name: Build and Push Docker Image to ECR
+      uses: docker/build-push-action@v6.18.0
+      with:
+        context: .
+        file: ./Dockerfile
+        push: true
+        tags: |
+          ${{ secrets.AWS_ECR_URI }}:latest
+          ${{ secrets.AWS_ECR_URI }}:${{ github.sha }}
