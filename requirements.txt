@@ -1,0 +1,15 @@
+boto3 == 1.41.0
+botocore == 1.41.0
+loguru == 0.7.3
+PyYAML == 6.0.3
+python-dotenv == 1.2.1
+pymongo == 4.15.4
+pandera == 0.26.1
+pint == 0.25.2
+pydantic == 2.12.4
+pydantic == 9.0.1
+mongomock == 4.3.0
+moto == 5.1.17
+coverage == 7.12.0
+pytest-cov == 7.0.0
+logtail-python == 0.3.4

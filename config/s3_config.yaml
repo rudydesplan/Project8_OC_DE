@@ -1,0 +1,16 @@
+aws:
+  region: "eu-north-1"
+  profile_name: null        # ou "default" si tu veux utiliser un profile local
+  use_instance_role: false  # mettre true si EC2/ECS IAM role
+
+s3:
+  bucket: "dataengproject8"
+  raw_prefix: "sources/" 
+  archive_prefix: "archive/"
+  error_prefix: "error/"
+  file_extension: ".jsonl"
+
+ingestion:
+  max_retries: 3
+  retry_delay_seconds: 2
+  enable_streaming: true

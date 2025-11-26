@@ -1,0 +1,26 @@
+[tool.pytest.ini_options]
+# Répertoire où se trouve votre code source
+pythonpath = [
+    ".",               # racine
+    "weather_pipeline" # dossier du projet
+]
+
+# Où pytest doit chercher les tests
+testpaths = [
+    "tests"
+]
+
+# Patterns de détection
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+
+# Affichage
+addopts = "-ra --disable-warnings"
+
+# Marqueurs personnalisés (on pourra les activer plus tard)
+markers = [
+    "unit: tests unitaires",
+    "integration: tests d'intégration",
+    "slow: tests plus longs"
+]
