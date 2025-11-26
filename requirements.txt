@@ -3,6 +3,7 @@ botocore == 1.41.0
 loguru == 0.7.3
 PyYAML == 6.0.3
 python-dotenv == 1.2.1
+pandas == 2.3.3
 pymongo == 4.15.4
 pandera == 0.26.1
 pint == 0.25.2
