@@ -71,5 +71,5 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: |
-          ${{ secrets.AWS_ECR_URI }}/weather-image:latest
-          ${{ secrets.AWS_ECR_URI }}/weather-image:${{ github.sha }}
+          ${{ secrets.AWS_ECR_URI }}:latest
+          ${{ secrets.AWS_ECR_URI }}:${{ github.sha }}
