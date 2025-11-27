@@ -96,7 +96,7 @@ jobs:
             > task-definition.json
   
       - name: Deploy ECS service
-        uses: amazon-ecs-deploy-task-definition@v2.5.0
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2.5.0
         with:
           task-definition: ${{ steps.render-task.outputs.task-definition }}
           service: weather-service
