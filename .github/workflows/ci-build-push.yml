@@ -98,7 +98,7 @@ jobs:
       - name: Deploy ECS service
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2.5.0
         with:
-          task-definition: ${{ steps.render-task.outputs.task-definition }}
+          task-definition: task-definition.json
           service: weather-service
           cluster: weather-cluster
           wait-for-service-stability: true
