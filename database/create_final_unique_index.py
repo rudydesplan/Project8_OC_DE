@@ -22,7 +22,7 @@ def create_unique_index() :
         name="unique_measurement_key"
     )
     
-    mongo.close()
+    client.close()
     print("Index unique créé !")
 
 if __name__ == "__main__":
