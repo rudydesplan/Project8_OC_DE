@@ -12,8 +12,7 @@ def load_env():
     """
     env_path = Path(__file__).resolve().parents[1] / ".env"
 
-    if not env_path.exists():
-        raise FileNotFoundError(f".env file not found at: {env_path}")
-
-    load_dotenv(env_path)
-    logger.info(f".env successfully loaded from: {env_path}")
+    if env_path.exists():
+        load_dotenv(env_path)
+    else:
+        logger.info(f"No .env file found at {env_path}, using environment variables from ECS.")
