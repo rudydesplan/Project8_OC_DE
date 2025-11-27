@@ -1,0 +1,28 @@
+deploy-to-ecs:
+  needs: test-build-push
+  runs-on: ubuntu-latest
+
+  steps:
+    - name: Checkout repo
+      uses: actions/checkout@v6
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v5.1.1
+      with:
+        role-to-assume: ${{ secrets.AWS_OIDC_ROLE }}
+        aws-region: eu-north-1
+
+    - name: Download latest task definition from ECS
+      run: |
+        aws ecs describe-task-definition \
+          --task-definition weather-pipeline \
+          --query taskDefinition \
+          > task-definition.json
+
+    - name: Deploy ECS service
+      uses: amazon-ecs-deploy-task-definition-action-for-github-actions@v2.5.0
+      with:
+        task-definition: ${{ steps.render-task.outputs.task-definition }}
+        service: weather-service
+        cluster: weather-cluster
+        wait-for-service-stability: true
